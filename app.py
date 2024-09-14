@@ -27,6 +27,7 @@ def transcript():
         print("[%.2fs -> %.2fs] %s" % (segment.start, segment.end, segment.text))
         resp += f"[%.2fs -> %.2fs] {segment.text}\n" % (segment.start, segment.end)
     print(f"Transcription time: {time.time() - start} seconds")
+    
     return resp
 
 if __name__ == '__main__':
