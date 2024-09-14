@@ -20,11 +20,13 @@ def transcript():
     start = time.time()
     model = WhisperModel("tiny", device="cpu", compute_type="int8", download_root="/tmp")
     print(f"Model load time: {time.time() - start} seconds")
+    start = time.time()
     segments, info = model.transcribe(jfk_path, word_timestamps=True)
     resp = ''
     for segment in segments:
         print("[%.2fs -> %.2fs] %s" % (segment.start, segment.end, segment.text))
         resp += f"[%.2fs -> %.2fs] {segment.text}\n" % (segment.start, segment.end)
+    print(f"Transcription time: {time.time() - start} seconds")
     return resp
 
 if __name__ == '__main__':
