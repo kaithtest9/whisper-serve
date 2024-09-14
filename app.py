@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request
+import time
 
 app = Flask(__name__)
 
@@ -16,7 +17,9 @@ def audio():
 def transcript():
     from faster_whisper import WhisperModel
     jfk_path = "jfk.flac"
-    model = WhisperModel("tiny", device="cpu", compute_type="int8", download_root="/app")
+    start = time.time()
+    model = WhisperModel("tiny", device="cpu", compute_type="int8", download_root="/tmp")
+    print(f"Model load time: {time.time() - start} seconds")
     segments, info = model.transcribe(jfk_path, word_timestamps=True)
     resp = ''
     for segment in segments:
