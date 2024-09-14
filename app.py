@@ -14,6 +14,7 @@ def audio():
 
 @app.route('/transcript', methods=['POST'])
 def transcript():
+    from faster_whisper import WhisperModel
     jfk_path = "jfk.flac"
     model = WhisperModel("tiny", device="cpu", compute_type="int8", download_root="/app")
     segments, info = model.transcribe(jfk_path, word_timestamps=True)
