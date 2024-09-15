@@ -29,3 +29,5 @@ def trans():
     result = whisperx.assign_word_speakers(diarize_segments, result)
     print(result["segments"])
     print(f"Diarization time: {time.time() - start} seconds")
+
+trans()
