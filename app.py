@@ -32,6 +32,23 @@ def transcript():
 
     return resp
 
+@app.route('/transcribe-by-whisper', methods=['POST'])
+def transcribe_by_whisper():
+    audio = request.files['audio']
+    from faster_whisper import WhisperModel
+    start = time.time()
+    model = WhisperModel("base", device="cpu", compute_type="int8", download_root="/tmp")
+    print(f"Model load time: {time.time() - start} seconds")
+    start = time.time()
+    segments, info = model.transcribe(audio, word_timestamps=True)
+    resp = ''
+    for segment in segments:
+        print("[%.2fs -> %.2fs] %s" % (segment.start, segment.end, segment.text))
+        resp += f"[%.2fs -> %.2fs] {segment.text}\n" % (segment.start, segment.end)
+    print(f"Transcription time: {time.time() - start} seconds")
+
+    return resp
+
 @app.route('/transcribe-by-whisper-x', methods=['POST'])
 def transcribe_by_whisper_x():
     import whisperx
